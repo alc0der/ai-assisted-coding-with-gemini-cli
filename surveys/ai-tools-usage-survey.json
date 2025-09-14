@@ -1,0 +1,446 @@
+{
+  "title": "AI-Assisted Coding Tools Usage Survey",
+  "description": "Help us understand which AI-assisted tools software engineers are using across different categories. This survey covers chat applications, IDE integrations, and command-line tools.",
+  "pages": [
+    {
+      "name": "chat_applications",
+      "title": "Chat-Based AI Applications",
+      "description": "These are web-based or desktop AI assistants you interact with through chat interfaces for coding help.",
+      "elements": [
+        {
+          "type": "checkbox",
+          "name": "chat_tools_used",
+          "title": "Which chat-based AI applications have you used for coding in the past 6 months?",
+          "description": "Select all that apply. Tools are sorted by current popularity among developers.",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "chatgpt_web",
+              "text": "ChatGPT (Web) - chat.openai.com"
+            },
+            {
+              "value": "claude_web",
+              "text": "Claude (Web) - claude.ai"
+            },
+            {
+              "value": "chatgpt_desktop",
+              "text": "ChatGPT Desktop App"
+            },
+            {
+              "value": "claude_desktop",
+              "text": "Claude Desktop App"
+            },
+            {
+              "value": "claude_desktop_mcp",
+              "text": "Claude Desktop + MCP (Model Context Protocol)"
+            },
+            {
+              "value": "gemini_web",
+              "text": "Gemini (Web) - gemini.google.com"
+            },
+            {
+              "value": "gemini_studio",
+              "text": "Google AI Studio"
+            },
+            {
+              "value": "perplexity_ai",
+              "text": "Perplexity AI"
+            },
+            {
+              "value": "microsoft_copilot_web",
+              "text": "Microsoft Copilot (Web)"
+            },
+            {
+              "value": "bing_chat",
+              "text": "Bing Chat / Copilot in Edge"
+            },
+            {
+              "value": "you_com",
+              "text": "You.com Code"
+            },
+            {
+              "value": "phind",
+              "text": "Phind"
+            },
+            {
+              "value": "other_chat",
+              "text": "Other chat application"
+            }
+          ],
+          "colCount": 1
+        },
+        {
+          "type": "comment",
+          "name": "other_chat_specify",
+          "visibleIf": "{chat_tools_used} contains 'other_chat'",
+          "title": "Please specify the other chat-based AI application:",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "name": "chat_ranking",
+      "title": "Chat Applications Ranking",
+      "visibleIf": "{chat_tools_used} notempty",
+      "elements": [
+        {
+          "type": "ranking",
+          "name": "chat_tools_ranking",
+          "title": "Rank the chat-based AI applications you selected by how frequently you use them for coding (most used first):",
+          "description": "Drag and drop to reorder. Only the tools you selected in the previous question will appear here.",
+          "isRequired": true,
+          "choicesFromQuestion": "chat_tools_used",
+          "choicesFromQuestionMode": "selected"
+        }
+      ]
+    },
+    {
+      "name": "ide_integrations",
+      "title": "IDE & Editor Integrations",
+      "description": "These are AI tools that integrate directly into your code editor or IDE, including VSCode forks.",
+      "elements": [
+        {
+          "type": "checkbox",
+          "name": "ide_tools_used",
+          "title": "Which IDE-integrated AI tools have you used in the past 6 months?",
+          "description": "Select all that apply. Tools are sorted by current market adoption.",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "github_copilot",
+              "text": "GitHub Copilot (VSCode, JetBrains, etc.)"
+            },
+            {
+              "value": "github_copilot_chat",
+              "text": "GitHub Copilot Chat"
+            },
+            {
+              "value": "cursor",
+              "text": "Cursor (AI-first code editor)"
+            },
+            {
+              "value": "cursor_composer",
+              "text": "Cursor Composer (multi-file editing)"
+            },
+            {
+              "value": "windsurf",
+              "text": "Windsurf (by Codeium)"
+            },
+            {
+              "value": "tabnine",
+              "text": "Tabnine"
+            },
+            {
+              "value": "codeium",
+              "text": "Codeium (free alternative)"
+            },
+            {
+              "value": "jetbrains_ai_assistant",
+              "text": "JetBrains AI Assistant"
+            },
+            {
+              "value": "amazon_q_developer",
+              "text": "Amazon Q Developer (formerly CodeWhisperer)"
+            },
+            {
+              "value": "cody_sourcegraph",
+              "text": "Cody (Sourcegraph)"
+            },
+            {
+              "value": "continue_dev",
+              "text": "Continue.dev (open source)"
+            },
+            {
+              "value": "replit_ghostwriter",
+              "text": "Replit Ghostwriter"
+            },
+            {
+              "value": "supermaven",
+              "text": "Supermaven"
+            },
+            {
+              "value": "visual_studio_intellicode",
+              "text": "Visual Studio IntelliCode"
+            },
+            {
+              "value": "zed_ai",
+              "text": "Zed AI (fast Rust-based editor)"
+            },
+            {
+              "value": "void_ide",
+              "text": "Void IDE (open source)"
+            },
+            {
+              "value": "other_ide",
+              "text": "Other IDE integration"
+            }
+          ],
+          "colCount": 1
+        },
+        {
+          "type": "comment",
+          "name": "other_ide_specify",
+          "visibleIf": "{ide_tools_used} contains 'other_ide'",
+          "title": "Please specify the other IDE-integrated AI tool:",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "name": "ide_ranking",
+      "title": "IDE Tools Ranking",
+      "visibleIf": "{ide_tools_used} notempty",
+      "elements": [
+        {
+          "type": "ranking",
+          "name": "ide_tools_ranking",
+          "title": "Rank the IDE-integrated AI tools you selected by how frequently you use them (most used first):",
+          "description": "Drag and drop to reorder. Only the tools you selected in the previous question will appear here.",
+          "isRequired": true,
+          "choicesFromQuestion": "ide_tools_used",
+          "choicesFromQuestionMode": "selected"
+        }
+      ]
+    },
+    {
+      "name": "cli_and_cicd",
+      "title": "Command Line & CI/CD Tools",
+      "description": "These are AI tools you use in the terminal, command line, or as part of your CI/CD pipeline.",
+      "elements": [
+        {
+          "type": "checkbox",
+          "name": "cli_tools_used",
+          "title": "Which command-line or CI/CD AI tools have you used in the past 6 months?",
+          "description": "Select all that apply. Includes terminal tools, GitHub Actions, and deployment automation.",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "aider",
+              "text": "Aider (terminal AI pair programming)"
+            },
+            {
+              "value": "github_copilot_cli",
+              "text": "GitHub Copilot CLI"
+            },
+            {
+              "value": "claude_code_cli",
+              "text": "Claude Code (CLI tool)"
+            },
+            {
+              "value": "continue_cli",
+              "text": "Continue CLI"
+            },
+            {
+              "value": "shell_gpt",
+              "text": "Shell GPT (sgpt)"
+            },
+            {
+              "value": "github_actions_ai",
+              "text": "GitHub Actions with AI (automated workflows)"
+            },
+            {
+              "value": "github_copilot_actions",
+              "text": "GitHub Copilot in GitHub Actions"
+            },
+            {
+              "value": "gemini_cli_actions",
+              "text": "Gemini CLI GitHub Actions"
+            },
+            {
+              "value": "chatgpt_api_cicd",
+              "text": "ChatGPT API in CI/CD"
+            },
+            {
+              "value": "claude_api_cicd",
+              "text": "Claude API in CI/CD"
+            },
+            {
+              "value": "gemini_api_cicd",
+              "text": "Gemini API in CI/CD"
+            },
+            {
+              "value": "warp_ai",
+              "text": "Warp AI (terminal with AI)"
+            },
+            {
+              "value": "fig_ai",
+              "text": "Fig AI (terminal autocomplete)"
+            },
+            {
+              "value": "sweep_ai",
+              "text": "Sweep AI (automated PR creation)"
+            },
+            {
+              "value": "devin_ai",
+              "text": "Devin (autonomous AI software engineer)"
+            },
+            {
+              "value": "other_cli",
+              "text": "Other CLI/CI-CD tool"
+            }
+          ],
+          "colCount": 1
+        },
+        {
+          "type": "comment",
+          "name": "other_cli_specify",
+          "visibleIf": "{cli_tools_used} contains 'other_cli'",
+          "title": "Please specify the other CLI or CI/CD AI tool:",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "name": "cli_ranking",
+      "title": "CLI & CI/CD Tools Ranking",
+      "visibleIf": "{cli_tools_used} notempty",
+      "elements": [
+        {
+          "type": "ranking",
+          "name": "cli_tools_ranking",
+          "title": "Rank the CLI/CI-CD AI tools you selected by how frequently you use them (most used first):",
+          "description": "Drag and drop to reorder. Only the tools you selected in the previous question will appear here.",
+          "isRequired": true,
+          "choicesFromQuestion": "cli_tools_used",
+          "choicesFromQuestionMode": "selected"
+        }
+      ]
+    },
+    {
+      "name": "specialized_platforms",
+      "title": "Specialized AI Coding Platforms",
+      "description": "These are specialized platforms for rapid prototyping, code generation, or specific development tasks.",
+      "elements": [
+        {
+          "type": "checkbox",
+          "name": "specialized_tools_used",
+          "title": "Which specialized AI coding platforms have you used in the past 6 months?",
+          "description": "Select all that apply. These focus on specific use cases like rapid prototyping or component generation.",
+          "isRequired": false,
+          "choices": [
+            {
+              "value": "v0_dev",
+              "text": "v0.dev (Vercel - React component generation)"
+            },
+            {
+              "value": "bolt_new",
+              "text": "Bolt.new (StackBlitz - full-stack app creation)"
+            },
+            {
+              "value": "lovable",
+              "text": "Lovable (formerly GPT Engineer - SaaS creation)"
+            },
+            {
+              "value": "replit_ai",
+              "text": "Replit AI (cloud development environment)"
+            },
+            {
+              "value": "github_copilot_workspace",
+              "text": "GitHub Copilot Workspace (project-level AI)"
+            },
+            {
+              "value": "mutable_ai",
+              "text": "Mutable AI (codebase understanding)"
+            },
+            {
+              "value": "marblism",
+              "text": "Marblism (SaaS app generation)"
+            },
+            {
+              "value": "magic_dev",
+              "text": "Magic.dev (infrastructure-scale coding)"
+            },
+            {
+              "value": "factory_ai",
+              "text": "Factory AI (frontier code models)"
+            },
+            {
+              "value": "mintlify",
+              "text": "Mintlify (AI documentation generation)"
+            },
+            {
+              "value": "other_specialized",
+              "text": "Other specialized platform"
+            }
+          ],
+          "colCount": 1
+        },
+        {
+          "type": "comment",
+          "name": "other_specialized_specify",
+          "visibleIf": "{specialized_tools_used} contains 'other_specialized'",
+          "title": "Please specify the other specialized AI coding platform:",
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "name": "specialized_ranking",
+      "title": "Specialized Platforms Ranking",
+      "visibleIf": "{specialized_tools_used} notempty",
+      "elements": [
+        {
+          "type": "ranking",
+          "name": "specialized_tools_ranking",
+          "title": "Rank the specialized AI coding platforms you selected by how frequently you use them (most used first):",
+          "description": "Drag and drop to reorder. Only the tools you selected in the previous question will appear here.",
+          "isRequired": true,
+          "choicesFromQuestion": "specialized_tools_used",
+          "choicesFromQuestionMode": "selected"
+        }
+      ]
+    },
+    {
+      "name": "usage_patterns",
+      "title": "Usage Patterns & Feedback",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "primary_category",
+          "title": "Which category of AI coding tools do you use most frequently?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "chat",
+              "text": "Chat-based applications (ChatGPT, Claude, etc.)"
+            },
+            {
+              "value": "ide",
+              "text": "IDE integrations (GitHub Copilot, Cursor, etc.)"
+            },
+            {
+              "value": "cli",
+              "text": "Command-line tools (Aider, CLI tools, etc.)"
+            },
+            {
+              "value": "specialized",
+              "text": "Specialized platforms (v0.dev, Bolt.new, etc.)"
+            }
+          ]
+        },
+        {
+          "type": "rating",
+          "name": "overall_satisfaction",
+          "title": "How satisfied are you with AI coding tools overall?",
+          "isRequired": true,
+          "rateMin": 1,
+          "rateMax": 5,
+          "minRateDescription": "Very dissatisfied",
+          "maxRateDescription": "Very satisfied"
+        },
+        {
+          "type": "comment",
+          "name": "additional_feedback",
+          "title": "Any additional feedback about AI coding tools? (Optional)",
+          "rows": 3
+        }
+      ]
+    }
+  ],
+  "showQuestionNumbers": "off",
+  "showProgressBar": "top",
+  "completeText": "Submit Survey",
+  "completedHtml": "<h3>Thank you for completing the survey!</h3><p>Your responses help us understand the AI coding tools landscape and developer preferences.</p>",
+  "navigateToUrl": "https://your-results-page.com",
+  "maxTimeToFinish": 900
+}
