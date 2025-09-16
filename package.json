@@ -5,7 +5,8 @@
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open --remote",
-    "export": "slidev export"
+    "export": "slidev export",
+    "backend": "cd surveys && deno run --allow-read --allow-net ./server.ts"
   },
   "dependencies": {
     "@slidev/cli": "^52.1.0",

@@ -1,9 +1,15 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@playwright/test@^1.55.0": "1.55.0",
     "npm:@slidev/cli@^52.1.0": "52.1.0_typescript@5.9.2_vite@7.1.5__jiti@2.5.1__yaml@2.8.1__picomatch@4.0.3_vue@3.5.21__typescript@5.9.2_markdown-it@14.1.0_shiki@3.12.2_jiti@2.5.1_yaml@2.8.1",
     "npm:@slidev/theme-default@latest": "0.25.0",
     "npm:@slidev/theme-seriph@latest": "0.25.0",
+    "npm:survey-core@^2.3.6": "2.3.6",
+    "npm:survey-creator-core@^2.3.6": "2.3.6_survey-core@2.3.6",
+    "npm:survey-creator-vue@^2.3.6": "2.3.6_survey-core@2.3.6_survey-creator-core@2.3.6__survey-core@2.3.6_survey-vue3-ui@2.3.6__survey-core@2.3.6__vue@3.5.21___typescript@5.9.2_vue@3.5.21__typescript@5.9.2",
+    "npm:survey-jquery-ui@^1.11.8": "1.11.8_survey-core@2.3.6",
+    "npm:survey-vue3-ui@^2.3.6": "2.3.6_survey-core@2.3.6_vue@3.5.21__typescript@5.9.2",
     "npm:vue@^3.5.18": "3.5.21_typescript@5.9.2"
   },
   "npm": {
@@ -588,6 +594,13 @@
       "dependencies": [
         "pako"
       ]
+    },
+    "@playwright/test@1.55.0": {
+      "integrity": "sha512-04IXzPwHrW69XusN/SIdDdKZBzMfOT9UNT/YiJit/xpy2VuAoB8NHc8Aplb96zsWDddLnbkPL3TsmrS04ZU2xQ==",
+      "dependencies": [
+        "playwright"
+      ],
+      "bin": true
     },
     "@polka/url@1.0.0-next.29": {
       "integrity": "sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww=="
@@ -1758,7 +1771,7 @@
         "readdirp@3.6.0"
       ],
       "optionalDependencies": [
-        "fsevents"
+        "fsevents@2.3.3"
       ]
     },
     "chokidar@4.0.3": {
@@ -2400,6 +2413,11 @@
         "universalify"
       ]
     },
+    "fsevents@2.3.2": {
+      "integrity": "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==",
+      "os": ["darwin"],
+      "scripts": true
+    },
     "fsevents@2.3.3": {
       "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
       "os": ["darwin"],
@@ -2654,6 +2672,9 @@
     "jiti@2.5.1": {
       "integrity": "sha512-twQoecYPiVA5K/h6SxtORw/Bs3ar+mLUtoPSc7iMXzQzK8d7eJ/R09wmTwAjiamETn1cXYPGfNnu7DMoHgu12w==",
       "bin": true
+    },
+    "jquery@3.7.1": {
+      "integrity": "sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg=="
     },
     "js-tokens@4.0.0": {
       "integrity": "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="
@@ -3337,6 +3358,20 @@
     "plantuml-encoder@1.4.0": {
       "integrity": "sha512-sxMwpDw/ySY1WB2CE3+IdMuEcWibJ72DDOsXLkSmEaSzwEUaYBT6DWgOfBiHGCux4q433X6+OEFWjlVqp7gL6g=="
     },
+    "playwright-core@1.55.0": {
+      "integrity": "sha512-GvZs4vU3U5ro2nZpeiwyb0zuFaqb9sUiAJuyrWpcGouD8y9/HLgGbNRjIph7zU9D3hnPaisMl9zG9CgFi/biIg==",
+      "bin": true
+    },
+    "playwright@1.55.0": {
+      "integrity": "sha512-sdCWStblvV1YU909Xqx0DhOjPZE4/5lJsIS84IfN9dAZfcl/CIZ5O8l3o0j7hPMjDvqoTF8ZUcc+i/GL5erstA==",
+      "dependencies": [
+        "playwright-core"
+      ],
+      "optionalDependencies": [
+        "fsevents@2.3.2"
+      ],
+      "bin": true
+    },
     "points-on-curve@0.2.0": {
       "integrity": "sha512-0mYKnYYe9ZcqMCWhUjItv/oHjvgEsfKvnUTg8sAtnHr3GVy7rGkXCb6d5cSyqrWqL4k81b9CPg3urd+T7aop3A=="
     },
@@ -3530,7 +3565,7 @@
         "@rollup/rollup-win32-arm64-msvc",
         "@rollup/rollup-win32-ia32-msvc",
         "@rollup/rollup-win32-x64-msvc",
-        "fsevents"
+        "fsevents@2.3.3"
       ],
       "bin": true
     },
@@ -3700,6 +3735,38 @@
         "clone-regexp",
         "function-timeout",
         "time-span"
+      ]
+    },
+    "survey-core@2.3.6": {
+      "integrity": "sha512-HJK4HurscNmj8zY9MFChPGlap7bZABxKJ2E8ggPvBSngkIXszzTs6CngASYg6dRrFVJqwxGhmfU3nt16ldmCpg=="
+    },
+    "survey-creator-core@2.3.6_survey-core@2.3.6": {
+      "integrity": "sha512-MErDjZmA4nIMCf03ZPzCwx2afXn24TNaX2oxsrKgzLWMvSzVEVuhHnRivwlal9s7zgDK6hEf8V8tjje7ho7XaA==",
+      "dependencies": [
+        "survey-core"
+      ]
+    },
+    "survey-creator-vue@2.3.6_survey-core@2.3.6_survey-creator-core@2.3.6__survey-core@2.3.6_survey-vue3-ui@2.3.6__survey-core@2.3.6__vue@3.5.21___typescript@5.9.2_vue@3.5.21__typescript@5.9.2": {
+      "integrity": "sha512-NfqAFG2Lie6cOgJKvqlMcJZXUJDjTVLCsTu1eiw6gj/yGZKZhemBgTVansX14k7fdp+J3HMZXlnXBgjFnn/CCA==",
+      "dependencies": [
+        "survey-core",
+        "survey-creator-core",
+        "survey-vue3-ui",
+        "vue"
+      ]
+    },
+    "survey-jquery-ui@1.11.8_survey-core@2.3.6": {
+      "integrity": "sha512-EXPWSyrGh/UQzgvzkQNGVmWbYw9juHn+W7BocWVYPjH0u9zmiBXmn24TTePnsKteY/T4FlIKrI67twKXhJfJNQ==",
+      "dependencies": [
+        "jquery",
+        "survey-core"
+      ]
+    },
+    "survey-vue3-ui@2.3.6_survey-core@2.3.6_vue@3.5.21__typescript@5.9.2": {
+      "integrity": "sha512-1edO10TswFWOxMS/0A+hDdpGipmlcBlfWhlkaSVQZk3VHTIwv6SYoyIengor+MxCzJqdv8VgYUSaJFMNqJ5WyQ==",
+      "dependencies": [
+        "survey-core",
+        "vue"
       ]
     },
     "time-span@5.1.0": {
@@ -4073,7 +4140,7 @@
         "yaml"
       ],
       "optionalDependencies": [
-        "fsevents"
+        "fsevents@2.3.3"
       ],
       "optionalPeers": [
         "jiti",
@@ -4191,12 +4258,32 @@
       "integrity": "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="
     }
   },
+  "remote": {
+    "https://deno.land/std@0.140.0/async/abortable.ts": "87aa7230be8360c24ad437212311c9e8d4328854baec27b4c7abb26e85515c06",
+    "https://deno.land/std@0.140.0/async/deadline.ts": "48ac998d7564969f3e6ec6b6f9bf0217ebd00239b1b2292feba61272d5dd58d0",
+    "https://deno.land/std@0.140.0/async/debounce.ts": "564273ef242bcfcda19a439132f940db8694173abffc159ea34f07d18fc42620",
+    "https://deno.land/std@0.140.0/async/deferred.ts": "bc18e28108252c9f67dfca2bbc4587c3cbf3aeb6e155f8c864ca8ecff992b98a",
+    "https://deno.land/std@0.140.0/async/delay.ts": "cbbdf1c87d1aed8edc7bae13592fb3e27e3106e0748f089c263390d4f49e5f6c",
+    "https://deno.land/std@0.140.0/async/mod.ts": "6e42e275b44367361a81842dd1a789c55ab206d7c8a877d7163ab5c460625be6",
+    "https://deno.land/std@0.140.0/async/mux_async_iterator.ts": "f4d1d259b0c694d381770ddaaa4b799a94843eba80c17f4a2ec2949168e52d1e",
+    "https://deno.land/std@0.140.0/async/pool.ts": "97b0dd27c69544e374df857a40902e74e39532f226005543eabacb551e277082",
+    "https://deno.land/std@0.140.0/async/tee.ts": "1341feb1f5b1a96f8628d0f8fc07d8c43d3813423f18a63bf1b4785568d21b1f",
+    "https://deno.land/std@0.140.0/http/server.ts": "3da75405704bebcf212a55966a68a489f7e094ba52b5d38f181fe0ef8461a55d",
+    "https://deno.land/std@0.208.0/async/delay.ts": "a6142eb44cdd856b645086af2b811b1fcce08ec06bb7d50969e6a872ee9b8659",
+    "https://deno.land/std@0.208.0/http/server.ts": "f3cde6672e631d3e00785743cfa96bfed275618c0352c5ae84abbe5a2e0e4afc"
+  },
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@playwright/test@^1.55.0",
         "npm:@slidev/cli@^52.1.0",
         "npm:@slidev/theme-default@latest",
         "npm:@slidev/theme-seriph@latest",
+        "npm:survey-core@^2.3.6",
+        "npm:survey-creator-core@^2.3.6",
+        "npm:survey-creator-vue@^2.3.6",
+        "npm:survey-jquery-ui@^1.11.8",
+        "npm:survey-vue3-ui@^2.3.6",
         "npm:vue@^3.5.18"
       ]
     }
