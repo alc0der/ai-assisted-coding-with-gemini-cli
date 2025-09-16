@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title></title>
+    <title>AI Tools Usage Survey</title>
     <link
       href="https://unpkg.com/survey-core/survey-core.min.css"
       type="text/css"
@@ -15,64 +15,144 @@
       type="text/javascript"
       src="https://unpkg.com/survey-js-ui/survey-js-ui.min.js"
     ></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+      }
+
+      .error-message {
+        background: #fee;
+        color: #c00;
+        padding: 20px;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+
+      .success-message {
+        padding: 20px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="surveyContainer"></div>
+
     <script>
       let survey;
+      let GOOGLE_APPS_SCRIPT_URL = null;
+
+      async function getGoogleAppsScriptUrl() {
+        // Check for Vite environment variable
+        if (typeof import !== 'undefined' && typeof import.meta !== 'undefined' && import.meta.env) {
+          GOOGLE_APPS_SCRIPT_URL = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL;
+          if (GOOGLE_APPS_SCRIPT_URL) return GOOGLE_APPS_SCRIPT_URL;
+        }
+
+        // Check localStorage
+        const savedUrl = localStorage.getItem('GOOGLE_APPS_SCRIPT_URL');
+        if (savedUrl) {
+          GOOGLE_APPS_SCRIPT_URL = savedUrl;
+          return GOOGLE_APPS_SCRIPT_URL;
+        }
+
+        // Prompt user for URL
+        const url = prompt('Please enter your Google Apps Script URL:');
+        if (url) {
+          localStorage.setItem('GOOGLE_APPS_SCRIPT_URL', url);
+          GOOGLE_APPS_SCRIPT_URL = url;
+          return url;
+        }
+
+        return null;
+      }
 
       document.addEventListener("DOMContentLoaded", async function () {
         try {
-          // Fetch survey data from the server
-          const response = await fetch("http://localhost:8000/survey");
-          const surveyJson = await response.json();
+          // Get Google Apps Script URL
+          const scriptUrl = await getGoogleAppsScriptUrl();
+          if (!scriptUrl) {
+            throw new Error('Google Apps Script URL not configured');
+          }
 
-          // Create and render the survey
+          // Load survey data
+          let surveyJson;
+          try {
+            const response = await fetch("ai-tools-usage-survey.json");
+            if (response.ok) {
+              surveyJson = await response.json();
+            }
+          } catch (e) {
+            throw new Error('Could not load survey data');
+          }
+
+          if (!surveyJson) {
+            throw new Error('Survey data is empty');
+          }
+
+          // Create and render survey
           survey = new Survey.Model(surveyJson);
 
-          // Add survey completion handler
           survey.onComplete.add((sender) => {
             saveSurveyResults(sender.data);
           });
 
           survey.render(document.getElementById("surveyContainer"));
+
         } catch (error) {
-          console.error("Failed to load survey:", error);
-          document.getElementById("surveyContainer").innerHTML =
-            "<p>Error loading survey. Please make sure the server is running.</p>";
+          document.getElementById("surveyContainer").innerHTML = `
+            <div class="error-message">
+              <h3>Error Loading Survey</h3>
+              <p>${error.message}</p>
+              <p>Please refresh the page and try again.</p>
+            </div>
+          `;
         }
       });
 
       async function saveSurveyResults(surveyData) {
         try {
-          const response = await fetch("http://localhost:8000/submit", {
+          if (!GOOGLE_APPS_SCRIPT_URL) {
+            throw new Error('Google Apps Script URL not configured');
+          }
+
+          const submissionData = {
+            ...surveyData,
+            timestamp: new Date().toISOString()
+          };
+
+          // Submit to Google Apps Script with no-cors mode
+          await fetch(GOOGLE_APPS_SCRIPT_URL, {
             method: "POST",
+            mode: "no-cors",
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "text/plain"
             },
-            body: JSON.stringify(surveyData),
+            body: JSON.stringify(submissionData)
           });
 
-          const result = await response.json();
+          // Show success message
+          document.getElementById("surveyContainer").innerHTML = `
+            <div class="success-message">
+              <h2>Thank You!</h2>
+              <p>Your survey responses have been successfully submitted.</p>
+              <p>You can close this window or <a href="#" onclick="location.reload()">take the survey again</a>.</p>
+            </div>
+          `;
 
-          if (response.ok && result.success) {
-            console.log("Survey submitted successfully:", result);
-            alert(
-              "Thank you for completing the survey! Your responses have been saved.",
-            );
-          } else {
-            console.error("Survey submission failed:", result);
-            alert(
-              "There was an error submitting your survey. Please try again.",
-            );
-          }
         } catch (error) {
-          console.error("Error submitting survey:", error);
-          alert(
-            "Network error while submitting survey. Please check your connection.",
+          const retry = confirm(
+            `Error submitting survey: ${error.message}\n\nWould you like to try again?`
           );
+
+          if (retry) {
+            saveSurveyResults(surveyData);
+          }
         }
       }
     </script>
-  </head>
-  <body>
-    <div id="surveyContainer"></div>
   </body>
 </html>

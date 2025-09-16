@@ -4,4 +4,4 @@ layout: image
 
 ## ACP in Zed IDE
 
-![Zed ACP](../assets/acp-zed.png)
+![Zed ACP](/assets/acp-zed.png)

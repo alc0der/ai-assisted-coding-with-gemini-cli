@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Apps Script Submission Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+        .warning-box h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .code-block {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #0e639c;
+            padding-bottom: 10px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 100px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #1177bb;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .debug-output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .test-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .test-button {
+            background: #28a745;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Google Apps Script Submission Debugger</h1>
+
+        <div class="warning-box">
+            <h3>⚠️ Configuration Update Required</h3>
+            <p>The survey now reads configuration from environment variables instead of survey-config.js</p>
+            <p><strong>To configure:</strong></p>
+            <ol>
+                <li>Copy <code>.env.example</code> to <code>.env</code></li>
+                <li>Set <code>VITE_GOOGLE_APPS_SCRIPT_URL</code> to your Google Apps Script URL</li>
+                <li>Restart the development server</li>
+            </ol>
+            <div class="code-block">
+                cp .env.example .env<br>
+                # Edit .env and set VITE_GOOGLE_APPS_SCRIPT_URL<br>
+                npm run dev
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="scriptUrl">Google Apps Script URL:</label>
+            <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec">
+            <small>Enter your Google Apps Script Web App URL</small>
+        </div>
+
+        <div class="input-group">
+            <label for="testData">Test Data (JSON):</label>
+            <textarea id="testData">{
+  "name": "Test User",
+  "email": "test@example.com",
+  "timestamp": "2024-01-01T12:00:00Z",
+  "responses": {
+    "question1": "Answer 1",
+    "question2": "Answer 2"
+  }
+}</textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="requestMode">Request Mode:</label>
+            <select id="requestMode">
+                <option value="no-cors">no-cors (Production mode - can't read response)</option>
+                <option value="cors">cors (Will fail, but shows CORS error)</option>
+                <option value="same-origin">same-origin (Will fail, for testing)</option>
+            </select>
+        </div>
+
+        <button onclick="testSubmission()">🚀 Test Submission</button>
+        <button onclick="clearDebug()">🗑️ Clear Debug</button>
+        <button onclick="loadConfig()">📋 Load from Config</button>
+
+        <div class="test-section">
+            <h3>Quick Tests</h3>
+            <button class="test-button" onclick="testUrlValidation()">Test URL Validation</button>
+            <button class="test-button" onclick="testNetworkConnectivity()">Test Network</button>
+            <button class="test-button" onclick="testCorsPreflightCheck()">Test CORS Preflight</button>
+            <button class="test-button" onclick="testMinimalPayload()">Test Minimal Payload</button>
+        </div>
+
+        <div id="status"></div>
+        <div id="debugOutput" class="debug-output"></div>
+    </div>
+
+    <script></script>
+        let debugLogs = [];
+
+        function log(message, data = null) {
+            const timestamp = new Date().toISOString();
+            const logEntry = `[${timestamp}] ${message}`;
+            console.log(logEntry, data || '');
+            debugLogs.push(logEntry);
+
+            if (data) {
+                const dataStr = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+                debugLogs.push(`  └─ ${dataStr}`);
+            }
+
+            updateDebugOutput();
+        }
+
+        function updateDebugOutput() {
+            const output = document.getElementById('debugOutput');
+            output.textContent = debugLogs.join('\n');
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function setStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.textContent = message;
+        }
+
+        function clearDebug() {
+            debugLogs = [];
+            updateDebugOutput();
+            setStatus('Debug cleared', 'info');
+        }
+
+        function loadConfig() {
+            log('Configuration Notice:');
+            log('The survey now uses environment variables for configuration.');
+            log('Please set VITE_GOOGLE_APPS_SCRIPT_URL in your .env file');
+            log('For testing, you can manually enter the URL in the field above');
+
+            setStatus('Enter your Google Apps Script URL manually for testing', 'info');
+
+            // Try to get from meta tag if available (some build tools inject env vars this way)
+            const metaTag = document.querySelector('meta[name="google-apps-script-url"]');
+            if (metaTag && metaTag.content) {
+                document.getElementById('scriptUrl').value = metaTag.content;
+                log('Found URL in meta tag', { url: metaTag.content.substring(0, 50) + '...' });
+                setStatus('URL loaded from meta tag', 'success');
+            }
+        }
+
+        async function testSubmission() {
+            log('=== Starting submission test ===');
+
+            const scriptUrl = document.getElementById('scriptUrl').value;
+            const testData = document.getElementById('testData').value;
+            const requestMode = document.getElementById('requestMode').value;
+
+            if (!scriptUrl) {
+                log('ERROR: No URL provided');
+                setStatus('Please enter a Google Apps Script URL', 'error');
+                return;
+            }
+
+            log('Configuration:', {
+                url: scriptUrl,
+                mode: requestMode,
+                dataLength: testData.length
+            });
+
+            // Validate URL
+            try {
+                const url = new URL(scriptUrl);
+                log('URL validation passed', {
+                    protocol: url.protocol,
+                    hostname: url.hostname,
+                    pathname: url.pathname
+                });
+            } catch (e) {
+                log('ERROR: Invalid URL format', e.message);
+                setStatus('Invalid URL format', 'error');
+                return;
+            }
+
+            // Validate JSON
+            let parsedData;
+            try {
+                parsedData = JSON.parse(testData);
+                log('JSON validation passed');
+            } catch (e) {
+                log('ERROR: Invalid JSON', e.message);
+                setStatus('Invalid JSON in test data', 'error');
+                return;
+            }
+
+            // Prepare request
+            const requestOptions = {
+                method: 'POST',
+                mode: requestMode,
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: testData
+            };
+
+            log('Request options:', requestOptions);
+            log('Sending request...');
+
+            const startTime = performance.now();
+
+            try {
+                const response = await fetch(scriptUrl, requestOptions);
+                const endTime = performance.now();
+                const duration = (endTime - startTime).toFixed(2);
+
+                log(`Response received in ${duration}ms`, {
+                    type: response.type,
+                    status: response.status,
+                    statusText: response.statusText,
+                    ok: response.ok,
+                    redirected: response.redirected,
+                    url: response.url
+                });
+
+                if (requestMode === 'no-cors') {
+                    log('INFO: With no-cors mode, response is opaque (status=0 is normal)');
+                    setStatus(`Request sent successfully in ${duration}ms (no-cors mode - response not readable)`, 'success');
+                } else if (response.ok) {
+                    try {
+                        const responseText = await response.text();
+                        log('Response body:', responseText);
+                        setStatus(`Success! Response received in ${duration}ms`, 'success');
+                    } catch (e) {
+                        log('Could not read response body', e.message);
+                    }
+                } else {
+                    setStatus(`Request failed: ${response.status} ${response.statusText}`, 'error');
+                }
+
+            } catch (error) {
+                const endTime = performance.now();
+                const duration = (endTime - startTime).toFixed(2);
+
+                log(`ERROR after ${duration}ms:`, {
+                    name: error.name,
+                    message: error.message,
+                    stack: error.stack
+                });
+
+                if (!navigator.onLine) {
+                    setStatus('Network error: You appear to be offline', 'error');
+                } else {
+                    setStatus(`Network error: ${error.message}`, 'error');
+                }
+            }
+
+            log('=== Test complete ===');
+        }
+
+        function testUrlValidation() {
+            log('=== URL Validation Test ===');
+            const scriptUrl = document.getElementById('scriptUrl').value;
+
+            if (!scriptUrl) {
+                log('No URL provided');
+                setStatus('Please enter a URL first', 'error');
+                return;
+            }
+
+            try {
+                const url = new URL(scriptUrl);
+                log('✅ Valid URL', {
+                    protocol: url.protocol,
+                    hostname: url.hostname,
+                    pathname: url.pathname,
+                    search: url.search,
+                    hash: url.hash
+                });
+
+                // Check if it's a Google Apps Script URL
+                if (url.hostname === 'script.google.com') {
+                    log('✅ This is a Google Apps Script URL');
+
+                    // Check for common patterns
+                    if (url.pathname.includes('/macros/s/')) {
+                        log('✅ URL follows the correct pattern for Web App');
+                    } else {
+                        log('⚠️ URL might not be a Web App URL (missing /macros/s/)');
+                    }
+                } else {
+                    log('⚠️ This is not a Google Apps Script URL');
+                }
+
+                setStatus('URL validation passed', 'success');
+            } catch (e) {
+                log('❌ Invalid URL', e.message);
+                setStatus('Invalid URL format', 'error');
+            }
+        }
+
+        function testNetworkConnectivity() {
+            log('=== Network Connectivity Test ===');
+
+            log('Browser online status:', navigator.onLine);
+
+            // Test connection to Google
+            fetch('https://www.google.com/favicon.ico', { mode: 'no-cors' })
+                .then(() => {
+                    log('✅ Can reach google.com');
+                    setStatus('Network connectivity OK', 'success');
+                })
+                .catch(err => {
+                    log('❌ Cannot reach google.com', err.message);
+                    setStatus('Network connectivity issue', 'error');
+                });
+        }
+
+        async function testCorsPreflightCheck() {
+            log('=== CORS Preflight Test ===');
+            const scriptUrl = document.getElementById('scriptUrl').value;
+
+            if (!scriptUrl) {
+                log('No URL provided');
+                setStatus('Please enter a URL first', 'error');
+                return;
+            }
+
+            log('Testing with CORS mode (will likely fail, but shows the error)...');
+
+            try {
+                const response = await fetch(scriptUrl, {
+                    method: 'OPTIONS',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                log('Preflight response:', {
+                    status: response.status,
+                    headers: Object.fromEntries(response.headers.entries())
+                });
+
+                setStatus('CORS preflight succeeded (unusual for Apps Script)', 'success');
+            } catch (error) {
+                log('Expected CORS error:', error.message);
+                log('This is normal - Google Apps Script does not support CORS preflight');
+                setStatus('CORS preflight failed (expected for Apps Script)', 'info');
+            }
+        }
+
+        function testMinimalPayload() {
+            log('=== Minimal Payload Test ===');
+
+            // Set minimal data
+            const minimalData = '{"test": true}';
+            document.getElementById('testData').value = minimalData;
+            log('Set minimal test data:', minimalData);
+
+            // Run submission test
+            testSubmission();
+        }
+
+        // Auto-load config on page load
+        window.addEventListener('load', () => {
+            log('Page loaded');
+            log('Browser info:', {
+                userAgent: navigator.userAgent,
+                online: navigator.onLine,
+                cookieEnabled: navigator.cookieEnabled,
+                language: navigator.language
+            });
+
+            log('=== IMPORTANT ===');
+            log('Configuration has changed to use environment variables');
+            log('Set VITE_GOOGLE_APPS_SCRIPT_URL in your .env file');
+            log('See .env.example for reference');
+
+            // Try to load config
+            setTimeout(loadConfig, 100);
+        });
+    </script>
+</body>
+</html>

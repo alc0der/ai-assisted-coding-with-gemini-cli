@@ -5,13 +5,13 @@
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open --remote",
-    "export": "slidev export",
-    "backend": "cd surveys && deno run --allow-read --allow-net ./server.ts"
+    "export": "slidev export"
   },
   "dependencies": {
     "@slidev/cli": "^52.1.0",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
+    "@slidev/types": "^52.1.0",
     "survey-core": "^2.3.6",
     "survey-creator-core": "^2.3.6",
     "survey-creator-vue": "^2.3.6",
