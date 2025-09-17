@@ -16,7 +16,7 @@ const GOOGLE_APPS_SCRIPT_URL =
 onMounted(async () => {
   try {
     // Fetch survey data from local assets
-    const response = await fetch("../assets/survey.json");
+    const response = await fetch("./data/survey.json");
 
     if (!response.ok) {
       throw new Error(

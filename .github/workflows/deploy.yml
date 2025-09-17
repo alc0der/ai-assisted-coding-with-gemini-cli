@@ -16,6 +16,9 @@ concurrency:
 
 jobs:
   build:
+    environment:
+      name: github-pages
+
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +36,8 @@ jobs:
 
       - name: Build
         run: nr build --base /${{github.event.repository.name}}/
-
+        env:
+          VITE_GOOGLE_APPS_SCRIPT_URL: ${{ vars.VITE_GOOGLE_APPS_SCRIPT_URL }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
