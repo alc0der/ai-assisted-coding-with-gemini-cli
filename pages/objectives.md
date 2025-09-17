@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: ../assets/barriers.png
+image: /assets/frontmatter-images/barriers.png
 ---
 
 ## Objectives

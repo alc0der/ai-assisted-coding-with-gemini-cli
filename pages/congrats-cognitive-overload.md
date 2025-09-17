@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: assets/cognitive-overload-defeated.png
+image: /assets/frontmatter-images/cognitive-overload-defeated.png
 ---
 
 ## Congratulations 🎉

@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: assets/acp.svg
+image: /assets/frontmatter-images/acp.svg
 backgroundSize: 20em 70%
 ---
 

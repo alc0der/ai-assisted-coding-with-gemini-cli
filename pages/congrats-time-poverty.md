@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: assets/time-poverty-defeated.png
+image: /assets/frontmatter-images/time-poverty-defeated.png
 ---
 
 ## Congratulations 🎉

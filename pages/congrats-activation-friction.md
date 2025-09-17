@@ -1,6 +1,6 @@
 ---
 layout: image-right
-image: ../assets/activation-friction-defeated.png
+image: /assets/frontmatter-images/activation-friction-defeated.png
 ---
 
 ## Congratulations 🎉
