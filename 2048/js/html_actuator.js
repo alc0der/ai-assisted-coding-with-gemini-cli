@@ -54,15 +54,15 @@ HTMLActuator.prototype.addTile = function (tile) {
   var positionClass = this.positionClass(position);
 
   // We can't use classlist because it somehow glitches when replacing classes
-  var classes = ["tile", "tile-" + tile.value, positionClass];
+  var classes = ["tile", "tile-" + tile.value.toString(16), positionClass];
 
-  if (tile.value > 2048) classes.push("tile-super");
+  if (tile.value > 0x800) classes.push("tile-super");
 
   //#region test
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.textContent = tile.value;
+  inner.textContent = tile.value.toString(16);
 
   if (tile.previousPosition) {
     //#endregion
@@ -110,19 +110,19 @@ HTMLActuator.prototype.updateScore = function (score) {
   var difference = score - this.score;
   this.score = score;
 
-  this.scoreContainer.textContent = this.score;
+  this.scoreContainer.textContent = this.score.toString(16);
 
   if (difference > 0) {
     var addition = document.createElement("div");
     addition.classList.add("score-addition");
-    addition.textContent = "+" + difference;
+    addition.textContent = "+" + difference.toString(16);
 
     this.scoreContainer.appendChild(addition);
   }
 };
 
 HTMLActuator.prototype.updateBestScore = function (bestScore) {
-  this.bestContainer.textContent = bestScore;
+  this.bestContainer.textContent = bestScore.toString(16);
 };
 
 HTMLActuator.prototype.message = function (won) {
